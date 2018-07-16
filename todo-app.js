@@ -6,37 +6,11 @@ const filters = {
 };
 
 
-function liveFilteredTodos(todos, filters) {
-	let filteredTodos = todos.filter((todo) => {
-		return todo.text.toLowerCase().includes(filters.searchText.toLowerCase());
-	})
-
-	filteredTodos = filteredTodos.filter((todo) => {
-		if (filters.hideCompleted) {
-			return !todo.completed;
-		} else {
-			return true;
-		}
-	})
-
-	document.querySelector('#all-todos').innerHTML = '';
-
-	filteredTodos.forEach((todo) => {
-		const ele = document.createElement('p');
-		ele.textContent = todo.text;
-		document.querySelector('#all-todos').appendChild(ele);
-		return filteredTodos
-	});
-};
-
-
-
 liveFilteredTodos(todos, filters);
 
 
 
 document.querySelector('#filter-todos').addEventListener('input', function(e) {
-	// console.log(e.target.value);
 	filters.searchText = e.target.value
 	liveFilteredTodos(todos, filters);
 });
@@ -44,6 +18,7 @@ document.querySelector('#filter-todos').addEventListener('input', function(e) {
 document.querySelector('#todo-form').addEventListener('submit', function(e) {
 	e.preventDefault();
 	todos.push({
+		id: uuidv4(),
 		text: e.target.elements.todoValue.value,
 		completed: false
 	});

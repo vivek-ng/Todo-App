@@ -8,3 +8,62 @@ const savedTodos = function() {
 		return [];
 	}
 }
+
+
+// get filtered todos
+
+const liveFilteredTodos =  function(todos, filters) {
+	let filteredTodos = todos.filter((todo) => {
+		return todo.text.toLowerCase().includes(filters.searchText.toLowerCase());
+	})
+
+	filteredTodos = filteredTodos.filter((todo) => {
+		if (filters.hideCompleted) {
+			return !todo.completed;
+		} else {
+			return true;
+		}
+	})
+
+
+const saveToLocalStorage = function(noteId){
+	localStorage.setItem('todos', JSON.stringify(todos));
+}	
+
+const removeTodos = function(todoId) {
+   let index = todos.findIndex(function(todo){
+   	return todo.id === todoId;
+   });
+
+   if(index != -1){
+   	  todos.splice(index,1);
+   	 saveToLocalStorage();
+   }
+}
+
+
+
+// adding delete button to all the todos
+	document.querySelector('#all-todos').innerHTML = '';
+    const container = document.createElement('div');
+    document.querySelector('#all-todos').appendChild(container);
+    const deleteButton = document.createElement('button');
+	filteredTodos.forEach((todo) => {
+		const deleteButton = document.createElement('button');
+		deleteButton.addEventListener('click', function() {
+            removeTodos(todo.id);
+            liveFilteredTodos(todos , filters);
+		});
+		const check = document.createElement('input');
+		check.setAttribute('type', 'checkbox');
+		deleteButton.textContent = 'delete'
+		const ele = document.createElement('span');
+		ele.textContent = todo.text;
+		container.appendChild(check);
+		container.appendChild(ele);
+		container.appendChild(deleteButton)
+		const br = document.createElement('br');
+		container.appendChild(br);
+		return filteredTodos;
+	});
+};
