@@ -12,6 +12,24 @@ const savedTodos = function() {
 
 // get filtered todos
 
+
+const saveToLocalStorage = function(storageTodos) {
+	localStorage.setItem('todos', JSON.stringify(storageTodos));
+}
+
+
+const removeTodos = function(todoId) {
+	let index = todos.findIndex(function(todo) {
+		return todo.id === todoId;
+	});
+
+	if (index != -1) {
+		todos.splice(index, 1);
+		saveToLocalStorage(todos);
+	}
+}
+
+
 const liveFilteredTodos = function(todos, filters) {
 	let filteredTodos = todos.filter((todo) => {
 		return todo.text.toLowerCase().includes(filters.searchText.toLowerCase());
@@ -24,24 +42,6 @@ const liveFilteredTodos = function(todos, filters) {
 			return true;
 		}
 	})
-
-
-	const saveToLocalStorage = function(noteId) {
-		localStorage.setItem('todos', JSON.stringify(todos));
-	}
-
-	const removeTodos = function(todoId) {
-		let index = todos.findIndex(function(todo) {
-			return todo.id === todoId;
-		});
-
-		if (index != -1) {
-			todos.splice(index, 1);
-			saveToLocalStorage();
-		}
-	}
-
-
 
 	// adding delete button to all the todos
 	document.querySelector('#all-todos').innerHTML = '';
@@ -61,11 +61,12 @@ const liveFilteredTodos = function(todos, filters) {
 		}
 		check.addEventListener('change', function() {
 			todo.completed = !todo.completed;
-			saveToLocalStorage(todo.id)
+			saveToLocalStorage(todos)
 			liveFilteredTodos(todos, filters);
 		})
 		deleteButton.textContent = 'delete'
-		const ele = document.createElement('span');
+		const ele = document.createElement('a');
+		ele.setAttribute('href', `edit.html#${todo.id}`)
 		ele.textContent = todo.text;
 		container.appendChild(check);
 		container.appendChild(ele);

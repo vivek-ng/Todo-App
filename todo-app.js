@@ -25,6 +25,7 @@ document.querySelector('#todo-form').addEventListener('submit', function(e) {
 	localStorage.setItem('todos', JSON.stringify(todos));
 	liveFilteredTodos(todos, filters);
 	e.target.elements.todoValue.value = '';
+	location.assign(`/edit.html#${todos[todos.length-1].id}`)
 });
 
 document.querySelector('#for-check').addEventListener('change', function(e) {
