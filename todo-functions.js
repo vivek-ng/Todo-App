@@ -56,6 +56,9 @@ const removeTodos = function(todoId) {
 		});
 		const check = document.createElement('input');
 		check.setAttribute('type', 'checkbox');
+		if(todo.completed){
+			check.checked = true;
+		}
 		deleteButton.textContent = 'delete'
 		const ele = document.createElement('span');
 		ele.textContent = todo.text;
