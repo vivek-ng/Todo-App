@@ -59,6 +59,11 @@ const removeTodos = function(todoId) {
 		if(todo.completed){
 			check.checked = true;
 		}
+		check.addEventListener('change', function() {
+          todo.completed = !todo.completed;
+          saveToLocalStorage(todo.id)
+          liveFilteredTodos(todos, filters);
+		})
 		deleteButton.textContent = 'delete'
 		const ele = document.createElement('span');
 		ele.textContent = todo.text;
